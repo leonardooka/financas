@@ -1,0 +1,6 @@
+Comida
+Bebida
+Lazer
+Higiene
+Remédio
+Restaurante

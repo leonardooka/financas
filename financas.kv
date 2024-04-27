@@ -1,0 +1,324 @@
+<PaginaPrincipal>:
+    name: "Principal"
+    gastocategoria: gastocategoria
+    gastodata: gastodata
+    gastodescricao: gastodescricao
+    gastovalor: gastovalor
+    teladegastos: teladegastos
+
+
+    FloatLayout:
+
+        size: root.width, root.height
+        canvas.before:
+            Color:
+                rgba: 0.2, 0.2, 0.2, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text:"Agenda de Gastos"
+            font_name: 'fonts/Sackers-Gothic-Std-Light.ttf'
+            font_size: 35
+            color: .9, .2, .5, 1
+            pos_hint: {"x":0,"y":0.9}
+            size_hint: (1, 0.1)
+
+
+
+        Button:
+            text: "Categorias"
+            font_name: 'fonts/digital/Digital Play St.ttf'
+            font_size: 13
+            color: .3, 0, .8, 1
+            pos_hint: {"x":0.5,"y":0.85}
+            size_hint: (0.2, 0.05)
+            on_press: root.categoria()
+
+#            background_normal: ''
+#            background_color: 1, .3, .4, .85       cor do botão
+        Button:
+            id: botaoarredondado1
+            text: "Meses"
+            font_name: 'fonts/digital/Digital Play St.ttf'
+            font_size: 13
+            color: .6, 0, .4, 1
+            pos_hint: {"x":0.75,"y":0.85}
+            size_hint: (0.2, 0.05)
+            on_press:
+                root.meses()
+#                self.color_change: ('down')
+        Label:
+            text: "Insira os dados de seu gasto!"
+            text_size: self.size
+            valign: "bottom"
+            padding: 40
+            pos_hint: {"x":0,"y":0.75}
+            size_hint: (1, 0.1)
+            font_size: 20
+        GridLayout:                            # INSERIR DADOS DE GASTO =================
+            padding: 0, 20, 20, 50
+            size_hint: (1, 0.17)
+            pos_hint: {"x":0,"y":0.62}
+            rows: 2
+            cols: 4
+            Label:
+                text: "Data:"
+                size_hint: (0.1, 0.1)
+            TextInput:
+                id: gastodata
+                multiline: False
+                size_hint: (0.2, 0.2)
+            # =================================
+            Label:
+                text: "Categoria:"
+                size_hint: (0.1, 0.1)
+            Spinner:
+                id: gastocategoria
+                text: "<selecione>"
+                font_name: 'fonts/digital/Digital Play St.ttf'
+                font_size: 13
+                color: .3, 0, .8, 1
+                pos_hint: {"x":0.1,"y":0.80}
+                size_hint: (0.3, 0.05)
+                values: root.categorias
+                on_text: root.categoria_escolhida(self.text)
+            # =================================
+            Label:
+                text: "Valor:"
+                size_hint: (0.1, 0.1)
+            TextInput:
+                id: gastovalor
+                multiline: False
+                size_hint: (0.2, 0.2)
+            # =================================
+            Label:
+                text: "Descrição:"
+                size_hint: (0.1, 0.1)
+            TextInput:
+                id: gastodescricao
+                multiline: False
+                size_hint: (0.2, 0.2)
+        Button:
+            text: "Adicionar"
+            font_name: 'fonts/digital/Digital Play St.ttf'
+            font_size: 13
+            color: .3, 0, .8, 1
+            pos_hint: {"x":0.17,"y":0.6}
+            size_hint: (0.15, 0.05)
+            on_press:
+                root.incluir_gasto()
+                gastovalor.text: ""
+                gastodescricao.text: ""
+                gastodata.text: ""
+                gastocategoria.text: ""
+            on_release:
+                root.gastos_na_tela()
+        Button:
+            text: "Atualizar"
+            font_name: 'fonts/digital/Digital Play St.ttf'
+            font_size: 13
+            color: .3, 0, .8, 1
+            pos_hint: {"x":0.57,"y":0.6}
+            size_hint: (0.15, 0.05)
+            on_press: root.gastos_na_tela()
+
+
+        # =============================================
+
+        Label:
+            text: "ÚLTIMOS GASTOS"
+            text_size: self.size
+            font_size: 20
+            halign: 'left'
+            padding: 40
+            pos_hint: {"x":0,"y":0.5}
+            size_hint: (1, 0.1)
+
+        ScrollView:
+            id: scroll
+            bar_width: 15
+            center: (self.width/2, 50)
+            pos: (10, 10)
+            do_scroll_x: True
+            do_scroll_y: True
+            size_hint: (1, 0.5)
+
+            BoxLayout:
+                id: teladegastos
+                orientation: "vertical"
+                padding: 20, 20, 20, 20
+                spacing: 30
+                size_hint: 1, None
+                top: scroll.height
+#                center: [self.width/2, 2000]
+#                pos_hint: {'x': 0.1,'y': 0.1}
+#                height: 4000
+
+
+
+
+
+
+<PaginaCategoria>:
+    name: "Categoria"
+    cadastro: cadastro
+    spinner: spinner
+    FloatLayout:
+
+        cols: 1
+        FloatLayout:
+            id: layout
+
+            size: root.width, root.height
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.2, 0.2, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: "Categorias"
+                pos_hint: {"x":0,"y":0.9}
+                size_hint: (1, 0.1)
+                font_size: 40
+            Label:
+                text:"Incluir Categoria:"
+                text_size: self.size
+                pos_hint: {"x":0.5,"y":0.85}
+                size_hint: (1, 0.1)
+            TextInput:
+                id: cadastro
+                multiline: False
+                pos_hint: {"x":0.5,"y":0.80}
+                size_hint: (0.3, 0.05)
+            Button:
+                text: "OK"
+                pos_hint: {"x":0.81,"y":0.80}
+                size_hint: (0.05, 0.05)
+                on_press: root.cadastrar_categoria()
+                on_release:
+                    cadastro.text = ""
+            Spinner:
+                id: spinner
+                text: "Escolha uma categoria"
+                pos_hint: {"x":0.1,"y":0.80}
+                size_hint: (0.3, 0.05)
+                on_touch_down: root.atualizar_cadastro()
+                values: root.listadecategorias
+                on_text:
+                    root.categoria_selecionada(self.text)   # self aqui se refere o do próprio container aqui
+                    root.valor_meses(self.text)
+            Button:
+                text: "Excluir"
+                on_press: root.popup_excluir(self)
+                pos_hint: {"x":0.6,"y":0.70}
+                size_hint: (0.2, 0.05)
+
+            Button:
+                text: "Voltar"
+                on_press: root.principal()
+                pos_hint: {"x":0.2,"y":0.70}
+                size_hint: (0.2, 0.05)
+        FloatLayout:            # aqui entram os meses para a categoria selecionada
+            id: layout2
+
+
+
+
+
+<PaginaMeses>:
+    name: "Meses"
+    mes: mes
+    scrollmes: scrollmes
+    ctgsoma: ctgsoma
+
+    FloatLayout:
+        size: root.width, root.height
+        canvas.before:
+            Color:
+                rgba: 0.2, 0.2, 0.2, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        canvas.after:
+            Color:
+                rgba: .7, .7, .7, .7
+            Line:
+                points: [0, self.height/2, self.width, self.height/2]
+                width: 2
+        Button:
+            text: "Voltar"
+            on_press: root.principal()
+            pos_hint: {"x":0.6,"y":0.90}
+            size_hint: (0.2, 0.05)
+        Label:
+            text: "Selecione o mês"
+            pos_hint: {"x":0.2,"y":0.95}
+        Spinner:
+            id: mes
+            text: "<selecione>"
+            pos_hint: {"x":0.2,"y":0.90}
+            size_hint: (0.2, 0.05)
+            values: root.meses
+            on_touch_down: root.atualizar_cadastro()
+            on_text:
+                root.mes_selecionado(self.text)
+                root.historico_do_mes()
+                root.total_categorias()
+        ScrollView:
+            id: scrollmes
+            bar_width: 15
+            center: (self.width/2, 50)
+            pos: (10, 10)
+            do_scroll_x: True
+            do_scroll_y: True
+            size_hint: (1, 0.5)
+            pos_hint: {'top': 0.85}
+
+            BoxLayout:
+                id: historico
+                orientation: "vertical"
+                padding: 20, 20, 20, 20
+                spacing: 30
+                size_hint: 1, None
+                top: scrollmes.height
+
+
+
+        BoxLayout:
+            id: ctgsoma
+            orientation: "vertical"
+            padding: 40, 20, 20, 20
+            spacing: 30
+            size_hint: .9, .4
+            pos_hint: {'top': 0.5}
+
+<NovaCategoria>:
+    Popup:
+        title: 'Nova Categoria'
+        size_hint: 0.5, 0.5
+        auto_dismiss: True
+
+<BotaoArredondado@Button>
+    background_color: (0,0,0,0)
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (.4, .4, .4, 1)
+#        RoundedRectangle:
+#            size: self.size
+#            pos: self.pos
+#            radius: [30]
+        Rectangle:
+            source: 'botao1.png'
+            size: self.size
+            pos: self.pos
+#        Label:
+#            text: 'Inclua sua nova categoria!'
+#        TextInput:
+#            size_hint: 0.8, 0.1
+#        Button:
+#            text: 'Fechar'
+#            on_release: root.dismiss()
